@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 *{
     padding: 0;
     margin: 0;
@@ -132,4 +132,106 @@ main{
 .movie:hover .overview{
     transform: translate(0);
 }
-/* .overview h3{} */
+
+
+#tags{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 5px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f807;
+    margin: 10 10 auto;
+    padding: 15px;
+    border-radius: 15px;
+}
+.tag{
+    padding: 10px 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: royalblue;
+    color: var(--white_color);
+    font-weight: 500;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    transition: 0.7s;
+    /* display: inline-block; */
+    height: 50px;
+}
+.tag:hover{
+    background-color: rgba(65, 105, 225, 0.418);
+}
+.Categ_title{
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: navajowhite;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1.5rem;
+}
+
+.active{
+    background-color: mediumpurple;
+}
+
+.no_res{
+    color: beige;
+    margin-top: 5%;
+}
+.clearCategsBtn{
+    background-color: var(--border_color);
+    width: 150px;
+    height: 60px;
+    /* margin-top: 20px; */
+    /* display: flex;
+    align-self: center;
+    justify-content: center; */
+    color: beige;
+    border-radius: 20px;
+    border: 1px solid beige;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.8s;
+}
+.clearCategsBtn:hover{
+    background-color: brown;
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: beige ;
+    gap: 10px;
+    margin: 10px 10px;
+}
+
+.page{
+    padding: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.disabled{
+    color: #253647;
+    cursor: not-allowed;
+}
+
+.current{
+    padding: 20px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    height: 30px;
+    background-color: seagreen;
+    border-radius: 10px;
+}

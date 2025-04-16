@@ -8,15 +8,205 @@ let image_url = "https://image.tmdb.org/t/p/w500";
 let search_url =
   "https://api.themoviedb.org/3/search/movie?api_key=970488c28a191c69880523a4aef98154";
 
+let main = document.getElementById("main");
+
+const genres = [
+  {
+    id: 28,
+    name: "Action",
+  },
+  {
+    id: 12,
+    name: "Adventure",
+  },
+  {
+    id: 16,
+    name: "Animation",
+  },
+  {
+    id: 35,
+    name: "Comedy",
+  },
+  {
+    id: 80,
+    name: "Crime",
+  },
+  {
+    id: 99,
+    name: "Documentary",
+  },
+  {
+    id: 18,
+    name: "Drama",
+  },
+  {
+    id: 10751,
+    name: "Family",
+  },
+  {
+    id: 14,
+    name: "Fantasy",
+  },
+  {
+    id: 36,
+    name: "History",
+  },
+  {
+    id: 27,
+    name: "Horror",
+  },
+  {
+    id: 10402,
+    name: "Music",
+  },
+  {
+    id: 9648,
+    name: "Mystery",
+  },
+  {
+    id: 10749,
+    name: "Romance",
+  },
+  {
+    id: 878,
+    name: "Science Fiction",
+  },
+  {
+    id: 10770,
+    name: "TV Movie",
+  },
+  {
+    id: 53,
+    name: "Thriller",
+  },
+  {
+    id: 10752,
+    name: "War",
+  },
+  {
+    id: 37,
+    name: "Western",
+  },
+];
+
 let form = document.getElementById("form");
+let tags = document.getElementById("tags");
+
+let HeaderTitle = document.createElement("h3");
+HeaderTitle.classList.add("Categ_title");
+HeaderTitle.textContent = "Search With Category";
+
+let prev = document.getElementById("prev");
+let next = document.getElementById("next");
+let current = document.getElementById("current");
+let currentPage = 1;
+var nextPage = 2;
+var prevPage = 3;
+var lastUrl = "";
+var totalPages = 100;
+
+getGenre();
+function getGenre() {
+  tags.innerHTML = "";
+  let selected = [];
+
+  // genres.forEach((genre) => {
+  //   let tag = document.createElement("div");
+  //   tag.classList.add("tag");
+
+  //   tag.innerText = genre.name;
+  //   tag.id = genre.id;
+
+  //   tags.appendChild(tag);
+  // });
+
+  tags.appendChild(HeaderTitle);
+  genres.forEach((genre) => {
+    let tag = document.createElement("div");
+    tag.classList.add("tag");
+    // tag.innerHTML = `
+    // <div class="tag">${genre.name}</div>
+    // `;
+    tag.id = genre.id;
+    tag.innerText = genre.name;
+
+    tag.addEventListener("click", () => {
+      if (selected.length == 0) {
+        selected.push(genre.id);
+      } else {
+        if (selected.includes(genre.id)) {
+          selected.forEach((id, idx) => {
+            if (id == genre.id) {
+              selected.splice(idx, 1);
+            }
+          });
+        } else {
+          selected.push(genre.id);
+        }
+      }
+      // console.log(selected);
+      getMovie(api_url + "&with_genres=" + encodeURI(selected.join(",")));
+    });
+    tags.append(tag);
+  });
+}
+
 getMovie(api_url);
 function getMovie(api_url) {
+  lastUrl = api_url;
   fetch(api_url)
     .then((Response) => Response.json())
     .then((data) => {
-      showMovie(data.results);
+      if (data.results.length !== 0) {
+        showMovie(data.results);
+        currentPage = data.page;
+        nextPage = currentPage + 1;
+        prevPage = currentPage - 1;
+        totalPages = data.total_pages;
+        current.innerHTML = currentPage;
+        if (currentPage <= 1) {
+          prev.classList.add("disabled");
+          next.classList.remove("disabled");
+        } else if (currentPage >= totalPages) {
+          prev.classList.remove("disabled");
+          next.classList.add("disabled");
+        } else {
+          prev.classList.remove("disabled");
+          next.classList.remove("disabled");
+        }
+      } else {
+        main.innerHTML = `<h1 class="no_res">No Movies Found</h1>`;
+      }
     });
 }
+
+function activGenre() {
+  const TagsDiv = document.getElementById("tags");
+  const tags = document.querySelectorAll(".tag");
+  let clearBtn;
+
+  tags.forEach((tag) => {
+    tag.addEventListener("click", () => {
+      tag.classList.toggle("active");
+
+      if (!clearBtn) {
+        clearBtn = document.createElement("button");
+        clearBtn.innerText = "Clear";
+        clearBtn.classList.add("clearCategsBtn");
+        TagsDiv.appendChild(clearBtn);
+
+        clearBtn.addEventListener("click", () => {
+          tags.forEach((t) => t.classList.remove("active"));
+          selected = [];
+          getMovie(api_url);
+        });
+      }
+    });
+  });
+}
+
+activGenre();
+
 function showMovie(data) {
   main.innerHTML = "";
   data.forEach((movie) => {
@@ -24,7 +214,11 @@ function showMovie(data) {
     movieEle.classList.add("movie");
     movieEle.innerHTML = `
     <div>
-            <img src="${image_url + movie.poster_path}">
+            <img src="${
+              image_url + movie.poster_path
+                ? image_url + movie.poster_path
+                : "https://placehold.com/1080x1580.png"
+            }">
 
             <div class="movie-info">
                 <h3>${movie.original_title}</h3>
@@ -39,8 +233,7 @@ function showMovie(data) {
             </div>
         </div>
     `;
-    console.log(movie);
-    let main = document.getElementById("main");
+    // console.log(movie);
     main.appendChild(movieEle);
   });
 }
@@ -57,10 +250,41 @@ function changeColor(vote) {
 
 form.addEventListener("keyup", (e) => {
   e.preventDefault();
-
+  selected = [];
+  getGenre();
   let search = document.getElementById("search");
   let searchTerm = search.value;
   if (searchTerm) {
     getMovie(search_url + "&query=" + searchTerm);
   } else getMovie(search_url + "&query=" + searchTerm);
 });
+
+prev.addEventListener("click", () => {
+  if (prevPage > 0) {
+    pageCall(prevPage);
+  }
+});
+
+next.addEventListener("click", () => {
+  if (nextPage <= totalPages) {
+    pageCall(nextPage);
+  }
+});
+
+function pageCall(page) {
+  let urlSplit = lastUrl.split("?");
+  let queryParam = urlSplit[1].split("&");
+  let key = queryParam[queryParam.length - 1].split("=");
+
+  if (key[0] !== "page") {
+    let url = lastUrl + "&page=" + page;
+    getMovie(url);
+  } else {
+    key[1] = page.toString();
+    let a = key.join("=");
+    queryParam[queryParam.length - 1] = a;
+    let b = queryParam.join("&");
+    let url = urlSplit[0] + "?" + b;
+    getMovie(url);
+  }
+}
