@@ -235,3 +235,149 @@ main{
     background-color: seagreen;
     border-radius: 10px;
 }
+
+
+.knoMore{
+    background-color: wheat;
+    color: orangered;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 1px solid orangered;
+    border-radius: 15px;
+    padding: 10px 15px;
+    outline: 0;
+    margin-top: 8px;
+    width: 100%;
+    transition: .5s;
+    cursor: pointer;
+}
+.knoMore:hover{
+    color: beige;
+    background-color: orangered;
+}
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0, 0.9); 
+    overflow-x: hidden;
+    transition: 0.5s; 
+  }
+  
+  .atcv{
+    width: 100%;
+  }
+  .overlay-content {
+    position: relative;
+    top: 25%; 
+    width: 100%; 
+    text-align: center; 
+    margin-top: 30px; 
+  }
+  
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block; 
+    transition: 0.3s; 
+  }
+  
+  .overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+  }
+  
+  .overlay .closebtn {
+      position: absolute;
+      top: 20px;
+      padding: 8px;
+      right: 45px;
+      width: 45px;
+      font-size: 35px;
+      background-color: #ffffff;
+      border-radius: 15px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #121416;
+      transition: 0.5s;
+    }
+    .overlay .closebtn:hover{
+        background-color: brown;
+        color: burlywood;
+    }
+    
+    .embed.hide{
+        display: none;
+    }
+    
+    .embed.show{
+        display: inline-block;
+    }
+
+    .arrow{
+        position: absolute;
+        
+    }
+    .arrow.arrow-left{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left:10%;
+        height: 60px;
+        padding: 10px;
+        font-size: 40px;
+        background-color: #173392;
+        border-radius: 20px;
+        color: #f1f1f1;
+
+    }
+    .arrow.arrow-right{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        right:10%;
+        height: 60px;
+        padding: 10px;
+        font-size: 40px;
+        background-color: #173392;
+        border-radius: 20px;
+    }
+    
+  @media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+      font-size: 40px;
+      top: 15px;
+      right: 35px;
+    }
+  }
+  
+@media screen and (max-width:900px){
+    header{
+        gap: 40px;
+    }
+}
+
+@media screen and (max-width:660px){
+    header{
+    flex-direction: column;
+    padding-bottom: 20px;
+    gap: 10px;
+}
+    header .logo img{
+        width: 180px;
+    }
+}
+
+@media screen and (max-width:540px){
+    #search{
+        width: 400px;
+    }
+}

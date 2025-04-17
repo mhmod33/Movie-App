@@ -230,13 +230,98 @@ function showMovie(data) {
             <div class="overview">
             <h3>Overview</h3>
                 ${movie.overview}
+                <br>
+                <button class="knoMore" id="${movie.id}"> Know More </button>
             </div>
+
         </div>
     `;
-    // console.log(movie);
     main.appendChild(movieEle);
+    let id = movie.id;
+
+    let closebtn = document.querySelector(".closebtn");
+    document.getElementById(id).addEventListener("click", () => {
+      console.log(id);
+      openNav(movie);
+    });
+
+    closebtn.addEventListener("click", () => {
+      document.getElementById("myNav").classList.remove("atcv");
+    });
   });
 }
+
+let overlay_content = document.querySelector(".overlay-content");
+
+function openNav(movie) {
+  let id = movie.id;
+  let movieApi = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=970488c28a191c69880523a4aef98154`;
+  fetch(movieApi)
+    .then((Response) => Response.json())
+    .then((videos) => {
+      if (videos) {
+        document.getElementById("myNav").classList.toggle("atcv");
+        if (videos.results.length > 0) {
+          var Embed = [];
+
+          videos.results.forEach((video) => {
+            let { key, name, site } = video;
+
+            if (site == "YouTube") {
+              Embed.push(`
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/${key}?si=CIRCssnb9nPEcMuo" title="${name}" class="embed hide"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                `);
+            }
+          });
+          overlay_content.innerHTML = Embed.join("");
+
+          indexedVid = 0;
+          showVid();
+        } else {
+          overlay_content.innerHTML = `<h1 class="no_res">No Movies Found</h1>`;
+        }
+      }
+    });
+}
+
+var indexedVid = 0;
+var totalVids = 0;
+function showVid() {
+  let embedVids = document.querySelectorAll(".embed");
+  totalVids = embedVids.length;
+  embedVids.forEach((selectedEmbed, idx) => {
+    if (indexedVid == idx) {
+      selectedEmbed.classList.add("show");
+      selectedEmbed.classList.remove("hide");
+    } else {
+      selectedEmbed.classList.add("hide");
+      selectedEmbed.classList.remove("show");
+      // overlay_content.innerHTML = `<h1 class="no_res">No Movies Found</h1>`;
+    }
+  });
+}
+
+let arrowRight = document.getElementById("arrow-right");
+arrowRight.addEventListener("click", () => {
+  if (totalVids > 0) {
+    indexedVid++;
+  } else {
+    indexedVid = totalVids - 1;
+  }
+
+  showVid();
+});
+let arrowLeft = document.getElementById("arrow-left");
+arrowLeft.addEventListener("click", () => {
+  if (totalVids > totalVids - 1) {
+    indexedVid--;
+  } else {
+    indexedVid = 0;
+  }
+  showVid();
+});
 
 function changeColor(vote) {
   if (vote >= 7) {
