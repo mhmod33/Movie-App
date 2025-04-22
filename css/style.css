@@ -189,10 +189,6 @@ main{
     background-color: var(--border_color);
     width: 150px;
     height: 60px;
-    /* margin-top: 20px; */
-    /* display: flex;
-    align-self: center;
-    justify-content: center; */
     color: beige;
     border-radius: 20px;
     border: 1px solid beige;

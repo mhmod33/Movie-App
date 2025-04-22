@@ -1,7 +1,10 @@
-//////////////api   api_key=970488c28a191c69880523a4aef98154  https://api.themoviedb.org/3/   discover/movie?sort_by=popularity.desc&
+///////////////////////   api   api_key=970488c28a191c69880523a4aef98154  https://api.themoviedb.org/3/   discover/movie?sort_by=popularity.desc& ////////////////////
 
 // let api_key = "api_key=970488c28a191c69880523a4aef98154";
 // let base_key = "discover/movie?sort_by=popularity.desc&";
+
+
+//////////////////////////////////////////////// ready the api //////////////////////////////////////////////
 let api_url =
   "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=970488c28a191c69880523a4aef98154";
 let image_url = "https://image.tmdb.org/t/p/w500";
@@ -89,6 +92,8 @@ const genres = [
   },
 ];
 
+// //////////////////////////////////////////  get elements ///////////////////////////////////
+
 let form = document.getElementById("form");
 let tags = document.getElementById("tags");
 
@@ -104,11 +109,15 @@ var nextPage = 2;
 var prevPage = 3;
 var lastUrl = "";
 var totalPages = 100;
+// //////////////////////////////////////////  starting functions ///////////////////////////////////
 
 getGenre();
 function getGenre() {
   tags.innerHTML = "";
   let selected = [];
+
+
+  //***************another way//***************
 
   // genres.forEach((genre) => {
   //   let tag = document.createElement("div");
@@ -298,7 +307,6 @@ function showVid() {
     } else {
       selectedEmbed.classList.add("hide");
       selectedEmbed.classList.remove("show");
-      // overlay_content.innerHTML = `<h1 class="no_res">No Movies Found</h1>`;
     }
   });
 }
